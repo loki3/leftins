@@ -1,6 +1,6 @@
 (defproject leftins "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :description "ClojureScript routines for manipulating 'left infinite' numbers"
+  :url "https://github.com/loki3/leftins"
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2127"]
@@ -18,4 +18,5 @@
                 :output-dir "out"
                 :optimizations :none
                 :source-map true}}]})
-
+
+
