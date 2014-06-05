@@ -5,17 +5,21 @@
 
 ;;;;;;;;;
 
+(defn int$[c]
+  "cljs doesn't have chars, so conversion is done differently"
+  (int c))
+
 (defn to-int[c]
   "Convert a leftin char to an int"
-  (let [x (int c)]
-    (cond (>= x (int \a)) (+ 10 (- x (int \a)))
-          (>= x (int \A)) (+ 10 (- x (int \A)))
-          :else (- x (int \0)))))
+  (let [x (int$ c)]
+    (cond (>= x (int$ \a)) (+ 10 (- x (int$ \a)))
+          (>= x (int$ \A)) (+ 10 (- x (int$ \A)))
+          :else (- x (int$ \0)))))
 
 (defn to-char[x]
   "Convert a leftin int to a char"
-  (char (if (> x 9) (+ (- x 10) (int \a))
-          (+ x (int \0)))))
+  (char (if (> x 9) (+ (- x 10) (int$ \a))
+          (+ x (int$ \0)))))
 
 (defn to-list[s]
   "Convert a leftin string to a list that can be manipulated"
@@ -46,7 +50,7 @@
   (reverse
     (let [carry (atom 0)]
       (reduce #(let [prod (+ (* n %2) @carry)]
-                 (reset! carry (int (/ prod b)))
+                 (reset! carry (int$ (/ prod b)))
                  (conj %1 (mod prod b)))
               () x))))
 
@@ -62,6 +66,22 @@
 (defn power-int[x n b]
   "x^n in base b, where n is an integer"
   (reduce #(multiply %1 %2 b) (repeat n x)))
+
+
+(defn ^:export addStrings[x y b]
+  (let [xl (to-list x)
+        yl (to-list y)]
+    (to-string (add xl yl b))))
+
+(defn ^:export subtractStrings[x y b]
+  (let [xl (to-list x)
+        yl (to-list y)]
+    (to-string (subtract xl yl b))))
+
+(defn ^:export multiplyStrings[x y b]
+  (let [xl (to-list x)
+        yl (to-list y)]
+    (to-string (multiply xl yl b))))
 
 ;;;;;;;;;
 
@@ -84,4 +104,8 @@
 (t/is (= '(4 3 9 3 9 0 9) (multiply (to-list "5972286") (to-list "9421769") 10)))
 
 (t/is (= '(7 0 0 0 0 0 0 0 0 0) (power-int (to-list "2217051543") 3 10)))
+
+(addStrings "12" "34" 10)
+(subtractStrings "12" "34" 10)
+(multiplyStrings "12" "34" 10)
 
