@@ -19,6 +19,20 @@
           var r = leftins.core.subtractStrings(a, b, 10);
           document.getElementById('output').value = r;
         }
+        function multiply()
+        {
+          var a = document.getElementById('a').value;
+          var b = document.getElementById('b').value;
+          var r = leftins.core.multiplyStrings(a, b, 10);
+          document.getElementById('output').value = r;
+        }
+        function power()
+        {
+          var a = document.getElementById('a').value;
+          var b = document.getElementById('b').value;
+          var r = leftins.core.powerStrings(a, b, 10);
+          document.getElementById('output').value = r;
+        }
         </script>
 
         <!-- <script type="text/javascript" src="out/leftins/core.js"></script> -->
@@ -28,6 +42,8 @@
         <br/>
         <button type="button" onclick="add()">a + b</button>
         <button type="button" onclick="subtract()">a - b</button>
+        <button type="button" onclick="multiply()">a * b</button>
+        <button type="button" onclick="power()">a ^ b</button>
         <br/>
         <textarea rows="10" cols="50" id="output">testing</textarea>
     </body>

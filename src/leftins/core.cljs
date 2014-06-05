@@ -2,21 +2,25 @@
 
 ;(. js/console (log "Hello world!"))
 
-(defn int$[c]
-  "cljs doesn't have chars, so conversion is done differently"
+(defn c->int[c]
+  "char to int, cljs specific"
   (.charCodeAt c))
+
+(defn s->int[s]
+  "string to int, cljs specific"
+  (js/parseInt s))
 
 (defn to-int[c]
   "Convert a leftin char to an int"
-  (let [x (int$ c)]
-    (cond (>= x (int$ \a)) (+ 10 (- x (int$ \a)))
-          (>= x (int$ \A)) (+ 10 (- x (int$ \A)))
-          :else (- x (int$ \0)))))
+  (let [x (c->int c)]
+    (cond (>= x (c->int \a)) (+ 10 (- x (c->int \a)))
+          (>= x (c->int \A)) (+ 10 (- x (c->int \A)))
+          :else (- x (c->int \0)))))
 
 (defn to-char[x]
   "Convert a leftin int to a char"
-  (char (if (> x 9) (+ (- x 10) (int$ \a))
-          (+ x (int$ \0)))))
+  (char (if (> x 9) (+ (- x 10) (c->int \a))
+          (+ x (c->int \0)))))
 
 (defn to-list[s]
   "Convert a leftin string to a list that can be manipulated"
@@ -47,7 +51,7 @@
   (reverse
     (let [carry (atom 0)]
       (reduce #(let [prod (+ (* n %2) @carry)]
-                 (reset! carry (int$ (/ prod b)))
+                 (reset! carry (int (/ prod b)))
                  (conj %1 (mod prod b)))
               () x))))
 
@@ -76,3 +80,13 @@
   (let [xl (to-list x)
         yl (to-list y)]
     (to-string (subtract xl yl b))))
+
+(defn ^:export multiplyStrings[x y b]
+  (let [xl (to-list x)
+        yl (to-list y)]
+    (to-string (multiply xl yl b))))
+
+(defn ^:export powerStrings[x n b]
+  (let [xl (to-list x)
+        nl (s->int n)]
+    (to-string (power-int xl nl b))))
