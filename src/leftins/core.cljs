@@ -71,20 +71,14 @@
 
 ;;;;;;;;;;;;;;;;;
 
-(defn ^:export addStrings[x y b]
+(defn stringOp[op x y b]
   (let [xl (to-list x)
         yl (to-list y)]
-    (to-string (add xl yl b))))
+    (to-string (op xl yl b))))
 
-(defn ^:export subtractStrings[x y b]
-  (let [xl (to-list x)
-        yl (to-list y)]
-    (to-string (subtract xl yl b))))
-
-(defn ^:export multiplyStrings[x y b]
-  (let [xl (to-list x)
-        yl (to-list y)]
-    (to-string (multiply xl yl b))))
+(defn ^:export addStrings[x y b] (stringOp add x y b))
+(defn ^:export subtractStrings[x y b] (stringOp subtract x y b))
+(defn ^:export multiplyStrings[x y b] (stringOp multiply x y b))
 
 (defn ^:export powerStrings[x n b]
   (let [xl (to-list x)
