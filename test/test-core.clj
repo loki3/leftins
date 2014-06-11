@@ -13,25 +13,25 @@
   "string to int, clj specific"
   (Integer/parseInt s))
 
-(defn to-int[c]
+(defn l-char->int[c]
   "Convert a leftin char to an int"
   (let [x (c->int c)]
     (cond (>= x (c->int \a)) (+ 10 (- x (c->int \a)))
           (>= x (c->int \A)) (+ 10 (- x (c->int \A)))
           :else (- x (c->int \0)))))
 
-(defn to-char[x]
+(defn l-int->char[x]
   "Convert a leftin int to a char"
   (char (if (> x 9) (+ (- x 10) (c->int \a))
           (+ x (c->int \0)))))
 
-(defn to-list[s]
+(defn l-string->list[s]
   "Convert a leftin string to a list that can be manipulated"
-  (map to-int (reverse s)))
+  (map l-char->int (reverse s)))
 
-(defn to-string[x]
+(defn l-list->string[x]
   "Convert a leftin list to a string"
-  (apply str (map to-char (reverse x))))
+  (apply str (map l-int->char (reverse x))))
 
 (defn add[x y b]
   "Add two leftin lists using a given number base"
@@ -75,39 +75,39 @@
 ;;;;;;;;;;;;;;;;;
 
 (defn stringOp[op x y b]
-  (let [xl (to-list x)
-        yl (to-list y)]
-    (to-string (op xl yl b))))
+  (let [xl (l-string->list x)
+        yl (l-string->list y)]
+    (l-list->string (op xl yl b))))
 
 (defn ^:export addStrings[x y b] (stringOp add x y b))
 (defn ^:export subtractStrings[x y b] (stringOp subtract x y b))
 (defn ^:export multiplyStrings[x y b] (stringOp multiply x y b))
 
 (defn ^:export powerStrings[x n b]
-  (let [xl (to-list x)
+  (let [xl (l-string->list x)
         nl (s->int n)]
-    (to-string (power-int xl nl b))))
+    (l-list->string (power-int xl nl b))))
 ;;;;;;;;;
 
 (def a "6431")
 (def b "7824")
-(t/is (= "6431" (to-string (to-list a))))
-(t/is (= "7824" (to-string (to-list b))))
+(t/is (= "6431" (list->string (string->list a))))
+(t/is (= "7824" (list->string (string->list b))))
 
-(t/is (= '(5 5 2 4) (add (to-list a) (to-list b) 10)))
-(t/is (= '(3 1 4) (add (to-list "251") (to-list "162") 10)))
+(t/is (= '(5 5 2 4) (add (string->list a) (string->list b) 10)))
+(t/is (= '(3 1 4) (add (string->list "251") (string->list "162") 10)))
 (t/is (= '(4 3 7 3 7 3 5) (add '(4 7 5 0 5 7 3) '(0 6 1 3 2 6 1 3) 10)))
 
 (t/is (= '(9 8 8) (subtract '(0 0 0) '(1 1 1) 10)))
-(t/is (= '(9 8 0) (subtract (to-list "251") (to-list "162") 10)))
-(t/is (= (to-list "6550517") (subtract (to-list "5972286") (to-list "9421769") 10)))
+(t/is (= '(9 8 0) (subtract (string->list "251") (string->list "162") 10)))
+(t/is (= (string->list "6550517") (subtract (string->list "5972286") (string->list "9421769") 10)))
 
 (t/is (= '(4 8 2 7) (mult-digit '(1 2 3 4) 4 10)))
-(t/is (= '(4 7 5 0 5 7 3) (mult-digit (to-list "5972286") 9 10)))
+(t/is (= '(4 7 5 0 5 7 3) (mult-digit (string->list "5972286") 9 10)))
 
-(t/is (= '(4 3 9 3 9 0 9) (multiply (to-list "5972286") (to-list "9421769") 10)))
+(t/is (= '(4 3 9 3 9 0 9) (multiply (string->list "5972286") (string->list "9421769") 10)))
 
-(t/is (= '(7 0 0 0 0 0 0 0 0 0) (power-int (to-list "2217051543") 3 10)))
+(t/is (= '(7 0 0 0 0 0 0 0 0 0) (power-int (string->list "2217051543") 3 10)))
 
 (t/is (= (addStrings "12" "34" 10) "46"))
 (t/is (= (subtractStrings "12" "34" 10) "78"))

@@ -10,25 +10,25 @@
   "string to int, cljs specific"
   (js/parseInt s))
 
-(defn to-int[c]
+(defn l-char->int[c]
   "Convert a leftin char to an int"
   (let [x (c->int c)]
     (cond (>= x (c->int \a)) (+ 10 (- x (c->int \a)))
           (>= x (c->int \A)) (+ 10 (- x (c->int \A)))
           :else (- x (c->int \0)))))
 
-(defn to-char[x]
+(defn l-int->char[x]
   "Convert a leftin int to a char"
   (char (if (> x 9) (+ (- x 10) (c->int \a))
           (+ x (c->int \0)))))
 
-(defn to-list[s]
+(defn l-string->list[s]
   "Convert a leftin string to a list that can be manipulated"
-  (map to-int (reverse s)))
+  (map l-char->int (reverse s)))
 
-(defn to-string[x]
+(defn l-list->string[x]
   "Convert a leftin list to a string"
-  (apply str (map to-char (reverse x))))
+  (apply str (map l-int->char (reverse x))))
 
 (defn add[x y b]
   "Add two leftin lists using a given number base"
@@ -72,15 +72,15 @@
 ;;;;;;;;;;;;;;;;;
 
 (defn stringOp[op x y b]
-  (let [xl (to-list x)
-        yl (to-list y)]
-    (to-string (op xl yl b))))
+  (let [xl (l-string->list x)
+        yl (l-string->list y)]
+    (l-list->string (op xl yl b))))
 
 (defn ^:export addStrings[x y b] (stringOp add x y b))
 (defn ^:export subtractStrings[x y b] (stringOp subtract x y b))
 (defn ^:export multiplyStrings[x y b] (stringOp multiply x y b))
 
 (defn ^:export powerStrings[x n b]
-  (let [xl (to-list x)
+  (let [xl (l-string->list x)
         nl (s->int n)]
-    (to-string (power-int xl nl b))))
+    (l-list->string (power-int xl nl b))))
