@@ -118,14 +118,14 @@
 
 ;;;;;;;;;;;;;;;;;
 
-(defn chop-v1[v1 v2]
-  "Shorten v1 so it's the same length as v2"
-  (subvec v1 0 (count v2)))
+(defn chop-l1[l1 l2]
+  "Shorten l1 so it's the same length as l2"
+  (list* (subvec (vec l1) 0 (count l2))))
 
 (defn add-if-product[x y z b lst]
   "If x * y = z, add it to list of answers"
-  (let [z' (multiply (list* x) (list* y) b)]
-    (if (= z' (chop-v1 z z'))
+  (let [z' (multiply x y b)]
+    (if (= z' (chop-l1 z z'))
       (conj lst x) lst)))
 
 (defn try-next-digit[x y z b]
@@ -133,8 +133,7 @@
   (loop [i 0
          answer []]
     (if (= i 10) answer
-      (recur (inc i) (add-if-product (conj x i) y z b answer))
-    )))
+      (recur (inc i) (add-if-product' (concat x `(~i)) y z b answer)))))
 
 (t/is (= [1 2]
          (chop-v1 [1 2 3 4] [9 10])))
