@@ -116,3 +116,32 @@
 
 
 
+;;;;;;;;;;;;;;;;;
+
+(defn chop-v1[v1 v2]
+  "Shorten v1 so it's the same length as v2"
+  (subvec v1 0 (count v2)))
+
+(defn add-if-product[x y z b lst]
+  "If x * y = z, add it to list of answers"
+  (let [z' (multiply (list* x) (list* y) b)]
+    (if (= z' (chop-v1 z z'))
+      (conj lst x) lst)))
+
+(defn try-next-digit[x y z b]
+  "Try adding digits to x to find cases where x*y=z"
+  (loop [i 0
+         answer []]
+    (if (= i 10) answer
+      (recur (inc i) (add-if-product (conj x i) y z b answer))
+    )))
+
+(t/is (= [1 2]
+         (chop-v1 [1 2 3 4] [9 10])))
+(t/is (= [[1 2] [3 4 5]]
+         (add-if-product [3 4 5] [4 5 6 7] [2 2 1] 10 [[1 2]])))
+(t/is (= [[1 2]]
+         (add-if-product [3 4 5] [4 5 6 7] [4 4 3] 10 [[1 2]])))
+(t/is (= [[3 4 0] [3 4 5]]
+         (try-next-digit [3 4] [4 5 6] [2 2 1] 10)) )
+
