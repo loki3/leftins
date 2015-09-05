@@ -91,23 +91,23 @@
 
 (def a "6431")
 (def b "7824")
-(t/is (= "6431" (list->string (string->list a))))
-(t/is (= "7824" (list->string (string->list b))))
+(t/is (= "6431" (l-list->string (l-string->list a))))
+(t/is (= "7824" (l-list->string (l-string->list b))))
 
-(t/is (= '(5 5 2 4) (add (string->list a) (string->list b) 10)))
-(t/is (= '(3 1 4) (add (string->list "251") (string->list "162") 10)))
+(t/is (= '(5 5 2 4) (add (l-string->list a) (l-string->list b) 10)))
+(t/is (= '(3 1 4) (add (l-string->list "251") (l-string->list "162") 10)))
 (t/is (= '(4 3 7 3 7 3 5) (add '(4 7 5 0 5 7 3) '(0 6 1 3 2 6 1 3) 10)))
 
 (t/is (= '(9 8 8) (subtract '(0 0 0) '(1 1 1) 10)))
-(t/is (= '(9 8 0) (subtract (string->list "251") (string->list "162") 10)))
-(t/is (= (string->list "6550517") (subtract (string->list "5972286") (string->list "9421769") 10)))
+(t/is (= '(9 8 0) (subtract (l-string->list "251") (l-string->list "162") 10)))
+(t/is (= (l-string->list "6550517") (subtract (l-string->list "5972286") (l-string->list "9421769") 10)))
 
 (t/is (= '(4 8 2 7) (mult-digit '(1 2 3 4) 4 10)))
-(t/is (= '(4 7 5 0 5 7 3) (mult-digit (string->list "5972286") 9 10)))
+(t/is (= '(4 7 5 0 5 7 3) (mult-digit (l-string->list "5972286") 9 10)))
 
-(t/is (= '(4 3 9 3 9 0 9) (multiply (string->list "5972286") (string->list "9421769") 10)))
+(t/is (= '(4 3 9 3 9 0 9) (multiply (l-string->list "5972286") (l-string->list "9421769") 10)))
 
-(t/is (= '(7 0 0 0 0 0 0 0 0 0) (power-int (string->list "2217051543") 3 10)))
+(t/is (= '(7 0 0 0 0 0 0 0 0 0) (power-int (l-string->list "2217051543") 3 10)))
 
 (t/is (= (addStrings "12" "34" 10) "46"))
 (t/is (= (subtractStrings "12" "34" 10) "78"))
@@ -133,10 +133,10 @@
   (loop [i 0
          answer []]
     (if (= i 10) answer
-      (recur (inc i) (add-if-product' (concat x `(~i)) y z b answer)))))
+      (recur (inc i) (add-if-product (concat x `(~i)) y z b answer)))))
 
 (t/is (= [1 2]
-         (chop-v1 [1 2 3 4] [9 10])))
+         (chop-l1 [1 2 3 4] [9 10])))
 (t/is (= [[1 2] [3 4 5]]
          (add-if-product [3 4 5] [4 5 6 7] [2 2 1] 10 [[1 2]])))
 (t/is (= [[1 2]]
